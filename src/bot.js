@@ -31,12 +31,6 @@ client.distube = new DisTube(client, {
     ]
 });
 
-client.on('messageCreate', message => {
-    if(message.content.includes("Calcifer") || message.content.includes("calcifer")) {
-        message.channel.send(`🔥 Hello, <@${message.author.id}>`)
-    }   
-})
-
 
 // const status = queue =>
 //   `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(', ') || 'Off'}\` | Loop: \`${

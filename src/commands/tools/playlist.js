@@ -1,15 +1,16 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { execute } = require('../../events/client/ready');
 const { joinVoiceChannel } = require('@discordjs/voice');
+const { SearchResultType } = require('distube');
 
 
 module.exports =  {
     data: new SlashCommandBuilder()
-        .setName('play')
-        .setDescription('Play a song!')
+        .setName('playlist')
+        .setDescription('Play a playlist!')
         .addStringOption(option => 
             option.setName('input')
-            .setDescription('Song name or youtube link')
+            .setDescription('Playlist youtube link')
             .setRequired(true)),
     async execute(interaction, client) {
 
@@ -17,7 +18,7 @@ module.exports =  {
 
 
         const search = await client.distube.search(songChoice, {
-            limit : 5
+            type : SearchResultType.PLAYLIST,
         })
 
 
@@ -36,7 +37,7 @@ module.exports =  {
         })
 
         if(interaction.member.voice.channel) {
-            message.text = `🔥 Added **${search[0].name} (${search[0].formattedDuration})** to the queue!`
+            message.text = `🔥 Added **${search[0].name}** to the queue!`
         } else {
             message.text = "🔥 ERROR You must be in a voice channel!"
         }

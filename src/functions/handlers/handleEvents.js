@@ -1,4 +1,5 @@
 const fs = require('fs');
+const  { DisTube } = require("distube");
 
 module.exports = (client) => {
     client.handleEvents = async () => {
@@ -10,8 +11,20 @@ module.exports = (client) => {
                 case "client":
                     for(const file of eventFiles) {
                         const event = require(`../../events/${folder}/${file}`);
-                        if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
-                        else client.on(event.name, (...args) => event.execute(...args, client));
+                        if (event.once){
+                            client.once(event.name, (...args) => event.execute(...args, client));
+                        } 
+                        else {
+                            client.on(event.name, (...args) => event.execute(...args, client));
+                        } 
+                    }
+                    break;
+                case "distube":
+                    for(const file of eventFiles) {
+                        const event = require(`../../events/${folder}/${file}`);
+                        
+                        client.distube.on(event.name, (...args) => event.execute(...args, client));
+                    
                     }
                     break;
                 default:

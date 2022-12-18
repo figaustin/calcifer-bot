@@ -13,6 +13,10 @@ module.exports =  {
             .setRequired(true)),
     async execute(interaction, client) {
 
+        const message = await interaction.deferReply( {
+            fetchReply: true
+        });
+
         const queue = client.distube.getQueue(interaction)
         if(!queue) {
             return interaction.member.channel.send("There is nothing in the queue right now!")
@@ -24,6 +28,10 @@ module.exports =  {
             return interaction.channel.send("Please enter a valid number!")
         }
         queue.setVolume(volume);
-        interaction.channel.send("🔥 Volume set to " + volume)
+        
+        const newMessage = `🔥 Volume set to **${volume}%**!`
+        await interaction.editReply({
+            content: newMessage
+        })
     }
 }
