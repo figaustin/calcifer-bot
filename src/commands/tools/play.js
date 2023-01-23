@@ -1,6 +1,7 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { execute } = require('../../events/client/ready');
 const { joinVoiceChannel } = require('@discordjs/voice');
+const { currentEmbed } = require('../../bot.js')
 
 
 module.exports =  {
@@ -15,18 +16,15 @@ module.exports =  {
 
         const songChoice = interaction.options.getString('input');
 
-
         const search = await client.distube.search(songChoice, {
             limit : 5
         })
-
-
 
         const message = {
             text: ""
         }
 
-        const play = client.distube.play(interaction.member.voice.channel, search[0], {
+        const song = client.distube.play(interaction.member.voice.channel, search[0], {
             interaction,
             textChannel: interaction.channel,
             member: interaction.member,
@@ -41,8 +39,11 @@ module.exports =  {
             message.text = "🔥 ERROR You must be in a voice channel!"
         }
 
-        await interaction.reply({
-            content: message.text
+        const sentMessage = await interaction.reply({
+            content: message.text,
         })
+        
+       
     }
 }
+
