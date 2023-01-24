@@ -1,6 +1,6 @@
 const  { DisTube } = require("distube");
 const { currentEmbed } = require('../../bot.js')
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
     name: 'playSong',
@@ -15,8 +15,20 @@ module.exports = {
                 .setImage(song.thumbnail)
                 .setURL(song.url)
                 .setThumbnail(queue.client.user.displayAvatarURL())
+
+            const btn = new ButtonBuilder()
+                .setCustomId(`playbutton`)
+                .setLabel('⏯')
+                .setStyle(ButtonStyle.Primary);
+
             
-            const sent = await queue.textChannel.send({embeds: [embed]});
+            const sent = await queue.textChannel.send(
+                {
+                    embeds: [embed],
+                    components: [new ActionRowBuilder().addComponents(btn)]
+                }
+                );
+
             currentEmbed.messageId = sent.id;
             
         } else {

@@ -1,6 +1,6 @@
 module.exports = {
     data: {
-        name: `Play`
+        name: `playbutton`
     }, 
     async execute(interaction, client) {
         
