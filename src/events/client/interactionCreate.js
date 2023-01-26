@@ -1,4 +1,5 @@
-const { InteractionType } = require("discord.js");
+const { InteractionType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { currentEmbed } = require('../../bot.js')
 
 module.exports = {
     name: 'interactionCreate',
@@ -19,6 +20,20 @@ module.exports = {
                     ephemeral: true
                 })
             }
+
+            if(currentEmbed.messageId != "" && interaction.channel.id === currentEmbed.channel) {
+                currentEmbed.count += 1;
+                if(currentEmbed.count === currentEmbed.maxStickMessageCount) {
+                    await interaction.channel.messages.fetch(currentEmbed.messageId)
+                        .then(m => {
+                            m.delete()
+                            sendNew(interaction)
+                            currentEmbed.count = 0;
+                        })
+                        .catch(console.error)
+                }
+            }
+
         } else if (interaction.isButton()) {
             const { buttons } = client;
             const { customId } = interaction;
@@ -33,4 +48,24 @@ module.exports = {
         }
         
     }
+}
+
+const sendNew = async(interaction) => {
+    const btn = new ButtonBuilder()
+                .setCustomId(`playbutton`)
+                .setEmoji('▶')
+                .setStyle(ButtonStyle.Primary);
+    const pause = new ButtonBuilder()
+                .setCustomId('pausebutton')
+                .setEmoji('⏸')
+                .setStyle(ButtonStyle.Primary)
+    const skip = new ButtonBuilder()
+                .setCustomId(`skipbutton`)
+                .setEmoji('⏭')
+                .setStyle(ButtonStyle.Primary);
+    const sent = await interaction.channel.send({
+        embeds: [currentEmbed.embed],
+        components: [new ActionRowBuilder().addComponents(btn, pause, skip)]
+    })
+    currentEmbed.messageId = sent;
 }

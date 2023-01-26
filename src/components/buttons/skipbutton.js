@@ -1,11 +1,13 @@
 module.exports = {
     data: {
-        name: `playbutton`
+        name: `skipbutton`
     }, 
     async execute(interaction, client) {
         
-        client.distube.resume(interaction);
-        
+        const skip = client.distube.skip(interaction, {}).catch(error => {
+            client.distube.voices.get(interaction).leave()
+        })
+
         await interaction.deferReply();
         await interaction.deleteReply();
     }

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { token } = process.env;
-const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const fs = require('fs');
 const { fileURLToPath } = require('url');
 const  { DisTube } = require("distube");
@@ -23,11 +23,14 @@ for (const folder of functionFolders) {
 
 const currentEmbed = {
     messageId: '',
-    embed: ''
+    embed: '',
+    maxStickMessageCount: 2,
+    channel: "887541243859570718",
+    count: 0,
+    currentSong: ''
 }
 
 module.exports =  { currentEmbed };
-
 
 client.distube = new DisTube(client, {
     leaveOnStop: false,
@@ -38,6 +41,7 @@ client.distube = new DisTube(client, {
         new YtDlpPlugin()
     ]
 });
+
 
 client.handleEvents();
 client.handleCommands();

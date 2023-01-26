@@ -1,12 +1,13 @@
 module.exports = {
     data: {
-        name: `playbutton`
+        name: `pausebutton`
     }, 
     async execute(interaction, client) {
         
-        client.distube.resume(interaction);
-        
+        client.distube.pause(interaction)
+
         await interaction.deferReply();
         await interaction.deleteReply();
+
     }
 }

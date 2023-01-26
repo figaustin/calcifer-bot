@@ -16,20 +16,29 @@ module.exports = {
                 .setURL(song.url)
                 .setThumbnail(queue.client.user.displayAvatarURL())
 
+            currentEmbed.embed = embed;
+
             const btn = new ButtonBuilder()
                 .setCustomId(`playbutton`)
-                .setLabel('⏯')
+                .setEmoji('▶')
+                .setStyle(ButtonStyle.Primary);
+            const pause = new ButtonBuilder()
+                .setCustomId('pausebutton')
+                .setEmoji('⏸')
+                .setStyle(ButtonStyle.Primary)
+            const skip = new ButtonBuilder()
+                .setCustomId(`skipbutton`)
+                .setEmoji('⏭')
                 .setStyle(ButtonStyle.Primary);
 
-            
             const sent = await queue.textChannel.send(
                 {
                     embeds: [embed],
-                    components: [new ActionRowBuilder().addComponents(btn)]
+                    components: [new ActionRowBuilder().addComponents(btn, pause, skip)]
                 }
                 );
 
-            currentEmbed.messageId = sent.id;
+            currentEmbed.messageId = sent;
             
         } else {
 
@@ -48,6 +57,8 @@ module.exports = {
                     m.edit({embeds: [embed]})
                 })
                 .catch(console.error)
+
+            currentEmbed.embed = embed;
         }
          
     }
