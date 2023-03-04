@@ -1,7 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { execute } = require('../../events/client/ready');
-const { joinVoiceChannel } = require('@discordjs/voice');
-const { currentEmbed } = require('../../bot.js')
 
 
 module.exports =  {

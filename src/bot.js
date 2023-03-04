@@ -1,9 +1,8 @@
 require('dotenv').config();
 
 const { token } = process.env;
-const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, Collection, GatewayIntentBits} = require('discord.js');
 const fs = require('fs');
-const { fileURLToPath } = require('url');
 const  { DisTube } = require("distube");
 const { YtDlpPlugin } = require('@distube/yt-dlp')
 
